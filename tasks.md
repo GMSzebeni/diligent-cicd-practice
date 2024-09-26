@@ -9,14 +9,23 @@
 Answer the following questions:
 
 - In which file we can found the entrypoint of the application?
+-   index.js
 - What is this `process.argv`?
+-   this is where the command line arguments passed into the program - an array in Node.js that holds the command-line arguments
 - What are the main responsibilities of the `createApp` in the `app.js`?
+-   adds the todo list or lists the existing todos based on the given command - to manage the todo list
 - What kind of functions can be found in `todo.js`?
+-   formatting, identifing, listing and list manipulating functions
 - How a new ID is generated to the todo if it is added?
+-   making the todos unique - every todo will have a unique identifier even if the todos are the same
 - What kind of functions can be found in `validate.js`?
+-   errorhandling - it prevents the user to add empty of not string todos
 - Which modules are covered with tests?
+-   todo.js and validate.js
 - What do you think what is the advantage of extracting the file handling logic to the `file-store.js` and pass the store to the app and the underlying functions? Is this pattern familiar for you?
+-   it is to break down the code and make it more managable, readable and maintainable - yes
 - Why this AppError is created? For what does it good for?
+-   here you could create app specific errors
 
 ## 1.1 Check the GitHub actions
 
