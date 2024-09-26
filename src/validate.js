@@ -10,3 +10,14 @@ export function validateAddParams(params) {
   }
   return params;
 }
+
+export function validateCompleteParams(params) {
+  const id = params;
+  if(isNaN(id)) {
+    throw new AppError("Id must be numeric type.")
+  }
+  if(id === null) {
+    throw new AppError("To Do cannot be found.");
+  }
+  return params;
+}

@@ -31,3 +31,13 @@ export function add(store, params) {
   store.set(toStore)
   return newTodo;
 }
+
+export function complete(store, id) {
+  const todos = store.get();
+
+  const toDo = todos.find(td => td.id == id);
+
+  toDo.done = true;
+
+  return toDo;
+}
