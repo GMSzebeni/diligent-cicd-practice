@@ -32,7 +32,7 @@ export function add(store, params) {
   return newTodo;
 }
 
-export function findByStatus(store, status) {
+export function findByStatus(store, params) {
   const todos = store.get();
-  return todos.filter(todo => todo.done === status);
+  return todos.filter(todo => todo.done === params);
 }
