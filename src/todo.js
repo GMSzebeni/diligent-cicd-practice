@@ -31,3 +31,8 @@ export function add(store, params) {
   store.set(toStore)
   return newTodo;
 }
+
+export function findByStatus(store, status) {
+  const todos = store.get();
+  return todos.filter(todo => todo.done === status);
+}
