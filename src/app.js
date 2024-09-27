@@ -1,7 +1,7 @@
 import { list, formatList, format, add, findByStatus } from './todo.js';
 import { display } from './display.js';
 import { AppError } from './app-error.js';
-import { validateAddParams } from './validate.js';
+import { validateAddParams, validateFindByStatusParam } from './validate.js';
 
 export function createApp(todoStore, args) {
   const [, , command, ...params] = args;
@@ -15,26 +15,22 @@ export function createApp(todoStore, args) {
       ]);
       break;
     case 'add':
-      const validated = validateAddParams(params);
-      const added = add(todoStore, validated);
+      const validatedAdd = validateAddParams(params);
+      const added = add(todoStore, validatedAdd);
       display(['New Todo added:', format(added)])
       break;
     case 'find-by-status':
-      const [statusParam] = params;
-      if (statusParam === 'done' || statusParam === 'not-done') {
-        const filteredTodos = findByStatus(todoStore, statusParam);
-        if(filteredTodos.length === 0) {
-          display([
-            `You have no todos that are ${statusParam}.`
-          ]);
-        } else {
-          display([
-          ...formatList(filteredTodos),
-          `You have ${filteredTodos.length} todos that are ${statusParam}.`
+      const validatedStatus = validateFindByStatusParam(params);
+      const filteredTodos = findByStatus(todoStore, validatedStatus);
+      if(filteredTodos.length === 0) {
+        display([
+          `You have no todos that are ${validatedStatus}.`
         ]);
-        }
       } else {
-        throw new AppError('Invalid status. Use "done" or "not-done".');
+        display([
+        ...formatList(filteredTodos),
+        `You have ${filteredTodos.length} todos that are ${validatedStatus}.`
+      ]);
       }
       break;
     default:
