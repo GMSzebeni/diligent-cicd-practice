@@ -1,5 +1,7 @@
 # Your awesome TODO App
 
+## Jira board for task management: https://diligent-course.atlassian.net/jira/software/projects/CW/boards/1
+
 ## Preparing for the task
 
 This is a template repo, you need to use to create your own repo based on that,
