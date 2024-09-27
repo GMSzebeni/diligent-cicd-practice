@@ -33,6 +33,7 @@ export function add(store, params) {
 }
 
 export function findByStatus(store, params) {
+  const status = params === 'done';
   const todos = store.get();
-  return todos.filter(todo => todo.done === params);
+  return todos.filter(todo => todo.done === status);
 }

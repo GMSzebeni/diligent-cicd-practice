@@ -22,11 +22,9 @@ export function createApp(todoStore, args) {
     case 'find-by-status':
       const [statusParam] = params;
       if (statusParam === 'done' || statusParam === 'not-done') {
-        const status = statusParam === 'done';
-        const filteredTodos = findByStatus(todoStore, status);
+        const filteredTodos = findByStatus(todoStore, statusParam);
         if(filteredTodos.length === 0) {
           display([
-            ...formatList(filteredTodos),
             `You have no todos that are ${statusParam}.`
           ]);
         } else {
