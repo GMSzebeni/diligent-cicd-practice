@@ -1,4 +1,4 @@
-import { validateAddParams } from "./validate";
+import { validateAddParams, validateFindByStatusParam } from "./validate";
 
 describe('validateAddParams', () => {
   it('should pass and return with the original params with single string', () => {
@@ -46,6 +46,40 @@ describe('validateAddParams', () => {
     expect(() => validateAddParams(params))
       .toThrow('The title must be a non zero length string.');
   })
+})
 
+describe('validateFindByStatusParam', () => {
+  it('should pass and return with the original params with single string', () => {
+    const params1 = ['done'];
+    const expected1 = 'done';
+    const params2 = ['not-done'];
+    const expected2 = 'not-done';
+    
+    const current1 = validateFindByStatusParam(params1);
+    const current2 = validateFindByStatusParam(params2);
 
+    expect(current1).toStrictEqual(expected1);
+    expect(current2).toStrictEqual(expected2);
+  })
+
+  it('should throw when multiple strings given', () => {
+    const params = ['done', 'Other string'];
+    
+    expect(() => validateFindByStatusParam(params))
+      .toThrow('Give a status as the only parameter.');
+  })
+
+  it('should throw when no params given.', () => {
+    const params = [];
+    
+    expect(() => validateFindByStatusParam(params))
+      .toThrow('Give a status as the only parameter.');
+  })
+
+  it('should throw when the param is not "done" or "not-done"', () => {
+    const params = ['invalid-string'];
+    
+    expect(() => validateFindByStatusParam(params))
+      .toThrow('Invalid status. Use "done" or "not-done".');
+  })
 })
