@@ -1,6 +1,7 @@
 # Your awesome TODO App
 
-## Jira board for task management: https://diligent-course.atlassian.net/jira/software/projects/CW/boards/1
+## Jira board for task management: 
+https://diligent-course.atlassian.net/jira/software/projects/CW/boards/1
 
 ## Preparing for the task
 
