@@ -1,4 +1,4 @@
-import { list, formatList, format, add } from './todo.js';
+import { list, formatList, format, add, findById } from './todo.js';
 import { display } from './display.js';
 import { AppError } from './app-error.js';
 import { validateAddParams } from './validate.js';
@@ -19,6 +19,10 @@ export function createApp(todoStore, args) {
       const added = add(todoStore, validated);
       display(['New Todo added:', format(added)])
       break;
+      case 'find-by-id':
+        const todo = findById(todoStore, params[0]);
+        display(['Todo found:', format(todo)]);
+        break;
     default:
       throw new AppError(`Unknown command: ${command}`)
   }
