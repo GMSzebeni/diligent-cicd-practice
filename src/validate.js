@@ -24,12 +24,12 @@ export function validateFindByStatusParam(params) {
 }
 
 export function validateCompleteParams(params) {
-  const id = params;
-  if(isNaN(id)) {
-    throw new AppError("Id must be numeric type.")
+  if (!params || params.length === 0) {
+    throw new AppError("Id is required.");
   }
-  if(id === null) {
-    throw new AppError("To Do cannot be found.");
+  const id = params;
+  if (isNaN(id)) {
+    throw new AppError("Id must be a numeric type.")
   }
   return params;
 }
