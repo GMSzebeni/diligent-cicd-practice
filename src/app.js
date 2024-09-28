@@ -21,17 +21,7 @@ export function createApp(todoStore, args) {
       break;
     case 'find-by-status':
       const validatedStatus = validateFindByStatusParam(params);
-      const filteredTodos = findByStatus(todoStore, validatedStatus);
-      if(filteredTodos.length === 0) {
-        display([
-          `You have no todos that are ${validatedStatus}.`
-        ]);
-      } else {
-        display([
-        ...formatList(filteredTodos),
-        `You have ${filteredTodos.length} todos that are ${validatedStatus}.`
-      ]);
-      }
+      display(findByStatus(todoStore, validatedStatus));
       break;
     default:
       throw new AppError(`Unknown command: ${command}`)
