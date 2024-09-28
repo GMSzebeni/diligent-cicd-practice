@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { add, findByStatus, format, formatList, list } from './todo.js';
+import { add, findByStatus, format, formatList, list, findById } from './todo.js';
 
 function createMockStore(data) {
   return {
@@ -173,3 +173,60 @@ describe('findByStatus', () => {
   });
 })
 
+describe('findById', () => {
+    
+  it('should find a todo by ID', () => {
+      const mockStore = createMockStore([
+          { id: 1, title: 'Todo 1', done: false },
+          { id: 2, title: 'Todo 2', done: true },
+          { id: 3, title: 'Todo 3', done: false },
+      ]);
+      
+      const todo = findById(mockStore, 2);
+      expect(todo).toEqual({ id: 2, title: 'Todo 2', done: true });
+  });
+
+  it('should return undefined for a non-existent ID', () => {
+      const mockStore = createMockStore([
+          { id: 1, title: 'Todo 1', done: false },
+          { id: 2, title: 'Todo 2', done: true },
+          { id: 3, title: 'Todo 3', done: false },
+      ]);
+      
+      const todo = findById(mockStore, 99);
+      expect(todo).toBeUndefined();
+  });
+
+  it('should convert string numeric ID to number and find todo', () => {
+      const mockStore = createMockStore([
+          { id: 1, title: 'Todo 1', done: false },
+          { id: 2, title: 'Todo 2', done: true },
+          { id: 3, title: 'Todo 3', done: false },
+      ]);
+      
+      const todo = findById(mockStore, '1'); 
+      expect(todo).toEqual({ id: 1, title: 'Todo 1', done: false });
+  });
+
+  it('should return undefined for an invalid ID input', () => {
+      const mockStore = createMockStore([
+          { id: 1, title: 'Todo 1', done: false },
+          { id: 2, title: 'Todo 2', done: true },
+          { id: 3, title: 'Todo 3', done: false },
+      ]);
+      
+      const todo = findById(mockStore, 'invalid');
+      expect(todo).toBeUndefined();
+  });
+
+  it('should handle NaN gracefully', () => {
+      const mockStore = createMockStore([
+          { id: 1, title: 'Todo 1', done: false },
+          { id: 2, title: 'Todo 2', done: true },
+          { id: 3, title: 'Todo 3', done: false },
+      ]);
+      
+      const todo = findById(mockStore, NaN);
+      expect(todo).toBeUndefined(); 
+  });
+});

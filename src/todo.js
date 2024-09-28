@@ -32,22 +32,6 @@ export function add(store, params) {
   return newTodo;
 }
 
-<<<<<<< HEAD
-export function findById(store, id) {
-  if (isNaN(id) || id === '') {
-    throw new AppError('Not numeric ID');
-  }
-
-  const todos = store.get();
-  const todoId = Number(id); 
-  const todo = todos.find(t => t.id === todoId);
-
-  if (!todo) {
-    throw new AppError(`Todo ID ${todoId} not found.`);
-  }
-
-  return todo;
-=======
 export function findByStatus(store, validatedStatus) {
   const status = validatedStatus === 'done';
   const todos = store.get();
@@ -59,5 +43,12 @@ export function findByStatus(store, validatedStatus) {
     ...formatList(filteredTodos),
     `You have ${filteredTodos.length} todos that are ${validatedStatus}.`];
   }
->>>>>>> main
+}
+
+export function findById(store, id) {
+  const todos = store.get();
+  const numericId = Number(id)
+  const todo = todos.find(t => t.id === numericId);
+
+  return todo;
 }

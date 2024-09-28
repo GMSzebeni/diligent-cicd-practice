@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-import { list, formatList, format, add, findById } from './todo.js';
-=======
-import { list, formatList, format, add, findByStatus } from './todo.js';
->>>>>>> main
+import { list, formatList, format, add, findByStatus, findById } from './todo.js';
 import { display } from './display.js';
 import { AppError } from './app-error.js';
-import { validateAddParams, validateFindByStatusParam } from './validate.js';
+import { validateAddParams, validateFindByStatusParam, validateFindById } from './validate.js';
 
 export function createApp(todoStore, args) {
   const [, , command, ...params] = args;
@@ -23,17 +19,20 @@ export function createApp(todoStore, args) {
       const added = add(todoStore, validatedAdd);
       display(['New Todo added:', format(added)])
       break;
-<<<<<<< HEAD
       case 'find-by-id':
+        const id = Number(params[0])
+        const validatedFindByID = validateFindById(id)
         const todo = findById(todoStore, params[0]);
-        display(['Todo found:', format(todo)]);
+        if (!todo) {
+          display([`Todo with ID ${validatedFindByID} not found.`]);
+      } else {
+          display(['Todo found:', format(todo)]);
+      }
         break;
-=======
     case 'find-by-status':
       const validatedStatus = validateFindByStatusParam(params);
       display(findByStatus(todoStore, validatedStatus));
       break;
->>>>>>> main
     default:
       throw new AppError(`Unknown command: ${command}`)
   }
