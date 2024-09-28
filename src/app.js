@@ -27,6 +27,7 @@ export function createApp(todoStore, args) {
       const completeValidated = validateCompleteParams(params);
       const completed = complete(todoStore, completeValidated);
       display(['ToDo completed', format(completed)]);
+      break;
     default:
       throw new AppError(`Unknown command: ${command}`)
   }
