@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { add, findByStatus, format, formatList, list } from './todo.js';
+import { add, findByStatus, format, formatList, list, complete } from './todo.js';
 
 function createMockStore(data) {
   return {
@@ -172,4 +172,36 @@ describe('findByStatus', () => {
     expect(current).toStrictEqual(expected);
   });
 })
+
+describe('complete', () => {
+  it('should set the given todos done property to true', () => {
+    const params = 2;
+    const stored = [
+      {id: 2, title: 'Todo 2', done: false},
+      {id: 3, title: 'Todo 3', done: true},
+      {id: 4, title: 'Todo 4', done: false},
+    ];
+    const mockStore = createMockStore(stored);
+    const expected = {id: 2, title: 'Todo 2', done: true};
+
+    const current = complete(mockStore, params);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it('should return the todo without changes if its already done', () => {
+    const params = 2;
+    const stored = [
+      {id: 2, title: 'Todo 2', done: true},
+      {id: 3, title: 'Todo 3', done: true},
+      {id: 4, title: 'Todo 4', done: false},
+    ];
+    const mockStore = createMockStore(stored);
+    const expected = {id: 2, title: 'Todo 2', done: true};
+
+    const current = complete(mockStore, params);
+
+    expect(current).toStrictEqual(expected);
+  })
+});
 
