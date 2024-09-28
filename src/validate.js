@@ -11,6 +11,18 @@ export function validateAddParams(params) {
   return params;
 }
 
+export function validateFindByStatusParam(params) {
+  if(params.length !== 1) {
+    throw new AppError('Give a status as the only parameter.');
+  }
+  const [status] = params;
+  if(status === "done" || status === "not-done") {
+    return status;
+  } else {
+    throw new AppError('Invalid status. Use "done" or "not-done".');
+  }
+}
+
 export function validateCompleteParams(params) {
   const id = params;
   if(isNaN(id)) {

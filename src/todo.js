@@ -32,6 +32,19 @@ export function add(store, params) {
   return newTodo;
 }
 
+export function findByStatus(store, validatedStatus) {
+  const status = validatedStatus === 'done';
+  const todos = store.get();
+  const filteredTodos = todos.filter(todo => todo.done === status);
+  if(filteredTodos.length === 0) {
+    return [`You have no todos that are ${validatedStatus}.`]
+  } else {
+    return [
+    ...formatList(filteredTodos),
+    `You have ${filteredTodos.length} todos that are ${validatedStatus}.`];
+  }
+}
+
 export function complete(store, id) {
   const todos = store.get();
 
