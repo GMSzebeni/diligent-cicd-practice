@@ -52,5 +52,7 @@ export function complete(store, id) {
 
   toDo.done = true;
 
+  store.set(todos)
+
   return toDo;
 }
