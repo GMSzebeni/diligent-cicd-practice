@@ -1,3 +1,5 @@
+import { AppError } from "./app-error.js";
+
 export function format(todo) {
   return `${todo.id} - [${todo.done ? 'x': ' '}] ${todo.title}`;
 }
@@ -49,6 +51,10 @@ export function complete(store, id) {
   const todos = store.get();
 
   const toDo = todos.find(td => td.id == id);
+
+  if (!toDo) {
+    throw new AppError(`Todo could not be found with the id ${id}`);
+  }
 
   toDo.done = true;
 
