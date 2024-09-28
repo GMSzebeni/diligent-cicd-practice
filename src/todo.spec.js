@@ -145,8 +145,9 @@ describe('findByStatus', () => {
     ];
     const mockStore = createMockStore(stored);
     const expected = [
-      {id: 2, title: 'Todo 2', done: false},
-      {id: 4, title: 'Todo 4', done: false},
+      '2 - [ ] Todo 2',
+      '4 - [ ] Todo 4',
+      'You have 2 todos that are not-done.',
     ];
 
     const current = findByStatus(mockStore, params);
@@ -162,7 +163,8 @@ describe('findByStatus', () => {
     ];
     const mockStore = createMockStore(stored);
     const expected = [
-      {id: 3, title: 'Todo 3', done: true},
+      '3 - [x] Todo 3',
+      'You have 1 todos that are done.'
     ];
 
     const current = findByStatus(mockStore, params);
