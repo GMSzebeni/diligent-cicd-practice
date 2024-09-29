@@ -22,3 +22,10 @@ export function validateFindByStatusParam(params) {
     throw new AppError('Invalid status. Use "done" or "not-done".');
   }
 }
+
+export function validateFindById(id) {
+  if (isNaN(id) || typeof id !== 'number') {
+    throw new AppError('The ID must be a numeric value.');
+  }
+  return id;
+}

@@ -1,4 +1,4 @@
-import { validateAddParams, validateFindByStatusParam } from "./validate";
+import { validateAddParams, validateFindByStatusParam, validateFindById } from "./validate";
 
 describe('validateAddParams', () => {
   it('should pass and return with the original params with single string', () => {
@@ -83,3 +83,36 @@ describe('validateFindByStatusParam', () => {
       .toThrow('Invalid status. Use "done" or "not-done".');
   })
 })
+describe('validateFindById', () => {
+    
+  it('should return the ID when a valid numeric value is provided', () => {
+      const validId = 5;
+      const result = validateFindById(validId);
+      expect(result).toBe(validId);
+  });
+
+  it('should throw an error when NaN is provided', () => {
+      
+      expect(() => validateFindById(NaN)).toThrow('The ID must be a numeric value.');
+  });
+
+  it('should throw an error when null is provided', () => {
+      
+      expect(() => validateFindById(null)).toThrow('The ID must be a numeric value.');
+  });
+
+  it('should throw an error when undefined is provided', () => {
+      
+      expect(() => validateFindById(undefined)).toThrow('The ID must be a numeric value.');
+  });
+
+  it('should throw an error when an object is provided', () => {
+      
+      expect(() => validateFindById({})).toThrow('The ID must be a numeric value.');
+  });
+
+  it('should throw an error when an array is provided', () => {
+     
+      expect(() => validateFindById([])).toThrow('The ID must be a numeric value.');
+  });
+});
