@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { add, findByStatus, format, formatList, list, findById } from './todo.js';
+import { add, findByStatus, format, formatList, list, findById, editTitle } from './todo.js';
 
 function createMockStore(data) {
   return {
@@ -230,3 +230,29 @@ describe('findById', () => {
       expect(todo).toBeUndefined(); 
   });
 });
+
+describe('editTitle', () => {
+  it('should edit title', () => {
+    const mockStore = createMockStore([
+      {id: 2, title: 'Todo 2', done: false},
+      {id: 3, title: 'Todo 3', done: true},
+      {id: 4, title: 'Todo 4', done: false}
+    ]);
+    
+    const expected = {id: 4, title: 'Todo 4 Updated', done: false};
+
+    const current = editTitle(mockStore, 4, 'Todo 4 Updated');
+
+    expect(current).toStrictEqual(expected);
+  });
+  it('should throw when there is no such id', () => {
+    const mockStore = createMockStore([
+      {id: 2, title: 'Todo 2', done: false},
+      {id: 3, title: 'Todo 3', done: true},
+      {id: 4, title: 'Todo 4', done: false}
+    ]);
+
+    expect(() => editTitle(mockStore, 1, 'title'))
+      .toThrow('Todo item not found. Provide a valid id!');
+  });
+})
