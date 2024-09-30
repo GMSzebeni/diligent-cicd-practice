@@ -4,7 +4,9 @@ import { add, findByStatus, format, formatList, list, findById, editTitle } from
 function createMockStore(data) {
   return {
     get: jest.fn(() => data),
-    set: jest.fn()
+    set: jest.fn((newData) => {
+      data = [...newData];
+    })
   }
 }
 
