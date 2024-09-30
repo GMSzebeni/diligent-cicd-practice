@@ -23,6 +23,13 @@ export function validateFindByStatusParam(params) {
   }
 }
 
+export function validateFindById(id) {
+  if (isNaN(id) || typeof id !== 'number') {
+    throw new AppError('The ID must be a numeric value.');
+  }
+  return id;
+}
+
 export function validateCompleteParams(params) {
   if (!params || params.length === 0) {
     throw new AppError("Id is required.");

@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { add, findByStatus, format, formatList, list, complete } from './todo.js';
+import { add, findByStatus, format, formatList, list, findById, complete } from './todo.js';
 
 function createMockStore(data) {
   return {

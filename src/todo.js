@@ -47,6 +47,14 @@ export function findByStatus(store, validatedStatus) {
   }
 }
 
+export function findById(store, id) {
+  const todos = store.get();
+  const numericId = Number(id)
+  const todo = todos.find(t => t.id === numericId);
+
+  return todo;
+}
+
 export function complete(store, id) {
   const todos = store.get();
 
