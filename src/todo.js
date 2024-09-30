@@ -1,3 +1,5 @@
+import { AppError } from "./app-error.js";
+
 export function format(todo) {
   return `${todo.id} - [${todo.done ? 'x': ' '}] ${todo.title}`;
 }
@@ -51,4 +53,17 @@ export function findById(store, id) {
   const todo = todos.find(t => t.id === numericId);
 
   return todo;
+}
+
+export function deleteToDo(store, id) {
+  const todos = store.get();
+  const dataToDelete = todos.find(todo => todo.id == id);
+
+  console.log(dataToDelete);
+
+  if (!dataToDelete) {
+    throw new AppError(`Todo with ID ${id} not found.`)
+  }
+
+  store.delete(dataToDelete);
 }
