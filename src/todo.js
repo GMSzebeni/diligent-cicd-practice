@@ -59,8 +59,6 @@ export function deleteToDo(store, id) {
   const todos = store.get();
   const dataToDelete = todos.find(todo => todo.id == id);
 
-  console.log(dataToDelete);
-
   if (!dataToDelete) {
     throw new AppError(`Todo with ID ${id} not found.`)
   }
