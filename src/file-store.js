@@ -12,14 +12,6 @@ export function createStore(path) {
     },
     set: (newData) => {
       writeFileSync(path, JSON.stringify(newData, null, 2), 'utf-8');
-    },
-    delete: (dataToDelete) => {
-      const textContent = readFileSync(path, 'utf-8');
-      const data = JSON.parse(textContent);
-
-      const newData = data.filter((item) => item.id != dataToDelete.id);
-
-      writeFileSync(path, JSON.stringify(newData, null, 2), 'utf-8');
     }
   }
 }

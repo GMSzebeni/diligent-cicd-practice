@@ -63,5 +63,7 @@ export function deleteToDo(store, id) {
     throw new AppError(`Todo with ID ${id} not found.`)
   }
 
-  store.delete(dataToDelete);
+  const newData = todos.filter(item => item.id != dataToDelete.id);
+
+  store.set(newData);
 }
