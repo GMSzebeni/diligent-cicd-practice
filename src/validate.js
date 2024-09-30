@@ -29,3 +29,14 @@ export function validateFindById(id) {
   }
   return id;
 }
+
+export function validateEditTitleParams(params) {
+  if(params.length !== 2) {
+    throw new AppError('You should provide two parameters: first the id than the new title.');
+  }
+  const id = params[0];
+  const newTitle = params[1];
+  if (isNaN(id)) {
+    throw new AppError("Invalid input. The id should be a number.");
+  }
+}
