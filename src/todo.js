@@ -1,3 +1,5 @@
+import { AppError } from "./app-error.js";
+
 export function format(todo) {
   return `${todo.id} - [${todo.done ? 'x': ' '}] ${todo.title}`;
 }
@@ -51,4 +53,21 @@ export function findById(store, id) {
   const todo = todos.find(t => t.id === numericId);
 
   return todo;
+}
+
+export function editTitle(store, id, newTitle) {
+  let todo = findById(store, id);
+
+  if (!todo) {
+    throw new AppError("Todo item not found. Provide a valid id!");
+  }
+
+  todo = { ...todo, title: newTitle };
+  
+  const todos = store.get();
+  const updatedTodos = todos.map(t => (t.id === id ? todo : t))
+  store.set(updatedTodos);
+
+  const updatedTodo = findById(store, id);
+  return updatedTodo;
 }
