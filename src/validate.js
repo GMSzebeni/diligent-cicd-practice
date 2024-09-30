@@ -11,6 +11,16 @@ export function validateAddParams(params) {
   return params;
 }
 
+export function validateIfIdIsNumber(id) {
+  if (!id || id.length === 0) {
+    throw new AppError("Id is required.");
+  }
+  if (isNaN(id) || typeof id !== 'number') {
+    throw new AppError('The Id must be of numeric value.');
+  }
+  return id;
+}
+
 export function validateFindByStatusParam(params) {
   if(params.length !== 1) {
     throw new AppError('Give a status as the only parameter.');
@@ -21,24 +31,4 @@ export function validateFindByStatusParam(params) {
   } else {
     throw new AppError('Invalid status. Use "done" or "not-done".');
   }
-}
-
-export function validateFindById(id) {
-  if (isNaN(id) || typeof id !== 'number') {
-    throw new AppError('The ID must be a numeric value.');
-  }
-  return id;
-}
-
-export function validateCompleteParams(params) {
-  if (!params || params.length === 0) {
-    throw new AppError("Id is required.");
-  }
-
-  const id = params;
-  
-  if (isNaN(id)) {
-    throw new AppError("Id must be a numeric type.")
-  }
-  return params;
 }
