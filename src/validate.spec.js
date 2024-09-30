@@ -1,4 +1,4 @@
-import { validateAddParams, validateFindByStatusParam, validateFindById } from "./validate";
+import { validateAddParams, validateFindByStatusParam, validateFindById, validateCompleteParams } from "./validate";
 
 describe('validateAddParams', () => {
   it('should pass and return with the original params with single string', () => {
@@ -116,3 +116,32 @@ describe('validateFindById', () => {
       expect(() => validateFindById([])).toThrow('The ID must be a numeric value.');
   });
 });
+
+describe('validateCompleteParams', () => {
+  it('should return with the given param if its validated', () => {
+    const param1 = 1;
+    const expected1 = 1;
+    const param2 = 2;
+    const expected2 = 2;
+    
+    const current1 = validateCompleteParams(param1);
+    const current2 = validateCompleteParams(param2);
+
+    expect(current1).toStrictEqual(expected1);
+    expect(current2).toStrictEqual(expected2);
+  });
+
+  it('should throw error when param is null', () => {
+    const param = null;
+
+    expect(() => validateCompleteParams(param))
+      .toThrow('Id is required.');
+  });
+
+  it('should throw error when param is not a number', () => {
+    const param = "2two";
+
+    expect(() => validateCompleteParams(param))
+      .toThrow('Id must be a numeric type.');
+  })
+})
