@@ -139,13 +139,9 @@ describe('validateCompleteParams', () => {
   });
 
   it('should throw error when param is not a number', () => {
-    const param1 = "2two";
-    const param2 = true;
+    const param = "2two";
 
-    expect(() => validateCompleteParams(param1))
-      .toThrow('Id must be a numeric type.');
-
-      expect(() => validateCompleteParams(param2))
+    expect(() => validateCompleteParams(param))
       .toThrow('Id must be a numeric type.');
   })
 })

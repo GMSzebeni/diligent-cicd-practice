@@ -35,10 +35,6 @@ export function validateCompleteParams(params) {
     throw new AppError("Id is required.");
   }
 
-  if (typeof params !== 'string' && typeof params !== 'number') {
-    throw new AppError("Id must be a numeric type.");
-  }
-
   const id = params;
   
   if (isNaN(id)) {
