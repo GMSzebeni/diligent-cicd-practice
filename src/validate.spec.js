@@ -1,4 +1,4 @@
-import { validateAddParams, validateFindByStatusParam, validateFindById } from "./validate";
+import { validateAddParams, validateFindByStatusParam, validateFindById, validateEditTitleParams } from "./validate";
 
 describe('validateAddParams', () => {
   it('should pass and return with the original params with single string', () => {
@@ -116,3 +116,26 @@ describe('validateFindById', () => {
       expect(() => validateFindById([])).toThrow('The ID must be a numeric value.');
   });
 });
+
+describe('validateEditTitleParams', () => {
+  it('should throw when only one parameter is provided.', () => {
+    const params = [1];
+    
+    expect(() => validateEditTitleParams(params))
+      .toThrow('You should provide two parameters: first the id than the new title.');
+  })
+
+  it('should throw when id is not a number.', () => {
+    const params = ['one', 'title'];
+    
+    expect(() => validateEditTitleParams(params))
+      .toThrow('Invalid input. The id should be a number.');
+  })
+
+  it('should throw when no params are given.', () => {
+    const params = [];
+    
+    expect(() => validateEditTitleParams(params))
+      .toThrow('You should provide two parameters: first the id than the new title.');
+  })
+})
