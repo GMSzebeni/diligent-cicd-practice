@@ -1,7 +1,7 @@
-import { list, formatList, format, add, findByStatus, findById } from './todo.js';
+import { list, formatList, format, add, findById, findByStatus, editTitle } from './todo.js';
 import { display } from './display.js';
 import { AppError } from './app-error.js';
-import { validateAddParams, validateFindByStatusParam, validateFindById } from './validate.js';
+import { validateAddParams, validateFindByStatusParam, validateFindById, validateEditTitleParams } from './validate.js';
 
 export function createApp(todoStore, args) {
   const [, , command, ...params] = args;
@@ -32,6 +32,11 @@ export function createApp(todoStore, args) {
     case 'find-by-status':
       const validatedStatus = validateFindByStatusParam(params);
       display(findByStatus(todoStore, validatedStatus));
+      break;
+    case 'edit-title':
+      validateEditTitleParams(params);
+      const edited = editTitle(todoStore, Number(params[0]), params[1]);
+      display(['Title has been changed: ', format(edited)]);
       break;
     default:
       throw new AppError(`Unknown command: ${command}`)
