@@ -29,3 +29,17 @@ export function validateFindById(id) {
   }
   return id;
 }
+
+export function validateDeleteToDoParams(params) {
+  if (!params || params.length === 0) {
+    throw new AppError("Id is required.");
+  }
+
+  const id = params;
+  
+  if (isNaN(id)) {
+    throw new AppError("Id must be a numeric type.")
+  }
+
+  return id;
+}
