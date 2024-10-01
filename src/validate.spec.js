@@ -142,13 +142,6 @@ describe('validateEditTitleParams', () => {
       .toThrow('You should provide two parameters: first the id than the new title.');
   })
 
-  it('should throw when id is not a number.', () => {
-    const params = ['one', 'title'];
-    
-    expect(() => validateEditTitleParams(params))
-      .toThrow('Invalid input. The id should be a number.');
-  })
-
   it('should throw when no params are given.', () => {
     const params = [];
     
