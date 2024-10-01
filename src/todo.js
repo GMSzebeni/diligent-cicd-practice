@@ -80,9 +80,9 @@ export function editTitle(store, id, newTitle) {
   let todo = findById(store, id);
 
   todo = { ...todo, title: newTitle };
-  
+
   const todos = store.get();
-  const updatedTodos = todos.map(t => (t.id === id ? todo : t));
+  const updatedTodos = todos.map((t) => (t.id === id ? todo : t));
   store.set(updatedTodos);
 
   const updatedTodo = findById(store, id);

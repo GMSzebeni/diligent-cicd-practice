@@ -6,7 +6,7 @@ import {
   formatList,
   list,
   complete,
-  editTitle
+  editTitle,
 } from "./todo.js";
 
 function createMockStore(data) {
@@ -205,18 +205,18 @@ describe("complete", () => {
   });
 });
 
-describe('editTitle', () => {
-  it('should edit title', () => {
+describe("editTitle", () => {
+  it("should edit title", () => {
     const mockStore = createMockStore([
-      {id: 2, title: 'Todo 2', done: false},
-      {id: 3, title: 'Todo 3', done: true},
-      {id: 4, title: 'Todo 4', done: false}
+      { id: 2, title: "Todo 2", done: false },
+      { id: 3, title: "Todo 3", done: true },
+      { id: 4, title: "Todo 4", done: false },
     ]);
-    
-    const expected = {id: 4, title: 'Todo 4 Updated', done: false};
 
-    const current = editTitle(mockStore, 4, 'Todo 4 Updated');
+    const expected = { id: 4, title: "Todo 4 Updated", done: false };
+
+    const current = editTitle(mockStore, 4, "Todo 4 Updated");
 
     expect(current).toStrictEqual(expected);
   });
-})
+});
