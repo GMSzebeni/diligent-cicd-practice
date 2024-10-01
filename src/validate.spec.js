@@ -2,6 +2,7 @@ import {
   validateAddParams,
   validateFindByStatusParam,
   validateIfIdIsNumber,
+  validateEditTitleParams,
 } from "./validate";
 
 describe("validateAddParams", () => {
@@ -103,21 +104,15 @@ describe("validateIfIdIsNumber", () => {
   });
 
   it("should throw an error when NaN is provided", () => {
-    expect(() => validateIfIdIsNumber(NaN)).toThrow(
-      "Id is required."
-    );
+    expect(() => validateIfIdIsNumber(NaN)).toThrow("Id is required.");
   });
 
   it("should throw an error when null is provided", () => {
-    expect(() => validateIfIdIsNumber(null)).toThrow(
-      "Id is required."
-    );
+    expect(() => validateIfIdIsNumber(null)).toThrow("Id is required.");
   });
 
   it("should throw an error when undefined is provided", () => {
-    expect(() => validateIfIdIsNumber(undefined)).toThrow(
-      "Id is required."
-    );
+    expect(() => validateIfIdIsNumber(undefined)).toThrow("Id is required.");
   });
 
   it("should throw an error when an object is provided", () => {
@@ -127,8 +122,24 @@ describe("validateIfIdIsNumber", () => {
   });
 
   it("should throw an error when an array is provided", () => {
-    expect(() => validateIfIdIsNumber([])).toThrow(
-      "Id is required."
+    expect(() => validateIfIdIsNumber([])).toThrow("Id is required.");
+  });
+});
+
+describe("validateEditTitleParams", () => {
+  it("should throw when only one parameter is provided.", () => {
+    const params = [1];
+
+    expect(() => validateEditTitleParams(params)).toThrow(
+      "You should provide two parameters: first the id than the new title."
+    );
+  });
+
+  it("should throw when no params are given.", () => {
+    const params = [];
+
+    expect(() => validateEditTitleParams(params)).toThrow(
+      "You should provide two parameters: first the id than the new title."
     );
   });
 });
