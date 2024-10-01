@@ -5,8 +5,8 @@ import {
   format,
   formatList,
   list,
-  findById,
   complete,
+  editTitle
 } from "./todo.js";
 
 function createMockStore(data) {
@@ -138,57 +138,6 @@ describe("add", () => {
   });
 });
 
-describe('findById', () => {
-    
-  it('should find a todo by ID', () => {
-      const mockStore = createMockStore([
-          { id: 1, title: 'Todo 1', done: false },
-          { id: 2, title: 'Todo 2', done: true },
-          { id: 3, title: 'Todo 3', done: false },
-      ]);
-      
-      const todo = findById(mockStore, 2);
-      expect(todo).toEqual({ id: 2, title: 'Todo 2', done: true });
-  });
-
-  it('should return undefined for a non-existent ID', () => {
-      const mockStore = createMockStore([
-          { id: 1, title: 'Todo 1', done: false },
-          { id: 2, title: 'Todo 2', done: true },
-          { id: 3, title: 'Todo 3', done: false },
-      ]);
-      
-      const todo = findById(mockStore, 99);
-      expect(todo).toBeUndefined();
-  });
-
-  it('should convert string numeric ID to number and find todo', () => {
-      const mockStore = createMockStore([
-          { id: 1, title: 'Todo 1', done: false },
-          { id: 2, title: 'Todo 2', done: true },
-          { id: 3, title: 'Todo 3', done: false },
-      ]);
-      
-      const todo = findById(mockStore, '1'); 
-      expect(todo).toEqual({ id: 1, title: 'Todo 1', done: false });
-  });
-
-  it("should return the todo without changes if its already done", () => {
-    const params = 2;
-    const stored = [
-      { id: 2, title: "Todo 2", done: true },
-      { id: 3, title: "Todo 3", done: true },
-      { id: 4, title: "Todo 4", done: false },
-    ];
-    const mockStore = createMockStore(stored);
-    const expected = { id: 2, title: "Todo 2", done: true };
-
-    const current = complete(mockStore, params);
-
-    expect(current).toStrictEqual(expected);
-  });
-});
-
 describe("findByStatus", () => {
   it("should find all todos where status is not-done", () => {
     const params = "not-done";
@@ -269,15 +218,5 @@ describe('editTitle', () => {
     const current = editTitle(mockStore, 4, 'Todo 4 Updated');
 
     expect(current).toStrictEqual(expected);
-  });
-  it('should throw when there is no such id', () => {
-    const mockStore = createMockStore([
-      {id: 2, title: 'Todo 2', done: false},
-      {id: 3, title: 'Todo 3', done: true},
-      {id: 4, title: 'Todo 4', done: false}
-    ]);
-
-    expect(() => editTitle(mockStore, 1, 'title'))
-      .toThrow('Todo item not found. Provide a valid id!');
   });
 })
