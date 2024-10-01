@@ -47,7 +47,9 @@ export function createApp(todoStore, args) {
       break;
     case 'edit-title':
       validateEditTitleParams(params);
-      const edited = editTitle(todoStore, Number(params[0]), params[1]);
+      const editId = Number(params[0]);
+      validateIfIdIsNumber(editId);
+      const edited = editTitle(todoStore, editId, params[1]);
       display(['Title has been changed: ', format(edited)]);
       break;
     default:
