@@ -79,10 +79,6 @@ export function complete(store, id) {
 export function editTitle(store, id, newTitle) {
   let todo = findById(store, id);
 
-  if (!todo) {
-    throw new AppError("Todo item not found. Provide a valid id!");
-  }
-
   todo = { ...todo, title: newTitle };
   
   const todos = store.get();
