@@ -171,6 +171,36 @@ describe("findByStatus", () => {
 
     expect(current).toStrictEqual(expected);
   });
+
+  it("should show not found message if no todos with done status have been found", () => {
+    const params = "done";
+    const stored = [
+      { id: 2, title: "Todo 2", done: false },
+      { id: 3, title: "Todo 3", done: false },
+      { id: 4, title: "Todo 4", done: false },
+    ];
+    const mockStore = createMockStore(stored);
+    const expected = ["You have no todos that are done."];
+
+    const current = findByStatus(mockStore, params);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it("should show not found message if no todos with not-done status have been found", () => {
+    const params = "not-done";
+    const stored = [
+      { id: 2, title: "Todo 2", done: true },
+      { id: 3, title: "Todo 3", done: true },
+      { id: 4, title: "Todo 4", done: true },
+    ];
+    const mockStore = createMockStore(stored);
+    const expected = ["You have no todos that are not-done."];
+
+    const current = findByStatus(mockStore, params);
+
+    expect(current).toStrictEqual(expected);
+  });
 });
 
 describe("complete", () => {
