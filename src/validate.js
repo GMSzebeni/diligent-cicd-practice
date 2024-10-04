@@ -21,6 +21,12 @@ export function validateIfIdIsNumber(id) {
   return id;
 }
 
+export function validateIfThereAreTwoParams(params) {
+  if (params.length !== 2) {
+    throw new AppError("You should provide two parameters! ");
+  }
+}
+
 export function validateFindByStatusParam(params) {
   if (params.length !== 1) {
     throw new AppError("Give a status as the only parameter.");

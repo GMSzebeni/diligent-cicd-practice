@@ -7,6 +7,7 @@ import {
   findById,
   complete,
   editTitle,
+  addLabel,
 } from "./todo.js";
 import { display } from "./display.js";
 import { AppError } from "./app-error.js";
@@ -15,6 +16,7 @@ import {
   validateFindByStatusParam,
   validateIfIdIsNumber,
   validateEditTitleParams,
+  validateIfThereAreTwoParams,
 } from "./validate.js";
 
 export function createApp(todoStore, args) {
@@ -51,6 +53,12 @@ export function createApp(todoStore, args) {
       validateIfIdIsNumber(editId);
       const edited = editTitle(todoStore, editId, params[1]);
       display(["Title has been changed: ", format(edited)]);
+      break;
+    case "add-label":
+      validateIfThereAreTwoParams(params);
+      validateIfIdIsNumber(Number(params[0]));
+      const labeled = addLabel(todoStore, Number(params[0]), params[1]);
+      display(["Label has been added: ", format(labeled)]);
       break;
     default:
       throw new AppError(`Unknown command: ${command}`);

@@ -3,6 +3,7 @@ import {
   validateFindByStatusParam,
   validateIfIdIsNumber,
   validateEditTitleParams,
+  validateIfThereAreTwoParams,
 } from "./validate";
 
 describe("validateAddParams", () => {
@@ -140,6 +141,24 @@ describe("validateEditTitleParams", () => {
 
     expect(() => validateEditTitleParams(params)).toThrow(
       "You should provide two parameters: first the id than the new title."
+    );
+  });
+});
+
+describe("validateIfThereAreTwoParams", () => {
+  it("should throw when only one parameter is provided.", () => {
+    const params = [1];
+
+    expect(() => validateIfThereAreTwoParams(params)).toThrow(
+      "You should provide two parameters!"
+    );
+  });
+
+  it("should throw when no params are given.", () => {
+    const params = [];
+
+    expect(() => validateIfThereAreTwoParams(params)).toThrow(
+      "You should provide two parameters!"
     );
   });
 });

@@ -7,6 +7,7 @@ import {
   list,
   complete,
   editTitle,
+  addLabel,
 } from "./todo.js";
 
 function createMockStore(data) {
@@ -20,8 +21,13 @@ function createMockStore(data) {
 
 describe("format", () => {
   it("should format a not done todo", () => {
-    const todo = { title: "todo title", id: 1, done: false };
-    const expected = "1 - [ ] todo title";
+    const todo = {
+      title: "todo title",
+      id: 1,
+      done: false,
+      labels: ["label1", "label2"],
+    };
+    const expected = "1 - [ ] todo title (label1,label2)";
 
     const current = format(todo);
 
@@ -29,8 +35,8 @@ describe("format", () => {
   });
 
   it("should format a done todo", () => {
-    const todo = { title: "todo title", id: 1, done: true };
-    const expected = "1 - [x] todo title";
+    const todo = { title: "todo title", id: 1, done: true, labels: ["label1"] };
+    const expected = "1 - [x] todo title (label1)";
 
     const current = format(todo);
 
@@ -41,10 +47,13 @@ describe("format", () => {
 describe("formatList", () => {
   it("should format a list of todos", () => {
     const todos = [
-      { title: "todo title", id: 1, done: true },
-      { title: "todo title 2", id: 2, done: false },
+      { title: "todo title", id: 1, done: true, labels: ["label1"] },
+      { title: "todo title 2", id: 2, done: false, labels: ["label2"] },
     ];
-    const expected = ["1 - [x] todo title", "2 - [ ] todo title 2"];
+    const expected = [
+      "1 - [x] todo title (label1)",
+      "2 - [ ] todo title 2 (label2)",
+    ];
 
     const current = formatList(todos);
 
@@ -94,6 +103,7 @@ describe("add", () => {
       id: 1,
       done: false,
       title: "New Todo",
+      labels: [],
     };
 
     const current = add(mockStore, params);
@@ -104,12 +114,13 @@ describe("add", () => {
 
   it("should append a new todo to the existing items", () => {
     const params = ["New Todo"];
-    const stored = [{ id: 1, title: "Todo 1", done: true }];
+    const stored = [{ id: 1, title: "Todo 1", done: true, labels: [] }];
     const mockStore = createMockStore(stored);
     const expected = {
       id: 2,
       done: false,
       title: "New Todo",
+      labels: [],
     };
 
     const current = add(mockStore, params);
@@ -121,14 +132,15 @@ describe("add", () => {
   it("should calculate the id by max id + 1, missing ids in a sequence", () => {
     const params = ["New Todo"];
     const stored = [
-      { id: 2, title: "Todo 1", done: true },
-      { id: 4, title: "Todo 1", done: true },
+      { id: 2, title: "Todo 1", done: true, labels: [] },
+      { id: 4, title: "Todo 1", done: true, labels: [] },
     ];
     const mockStore = createMockStore(stored);
     const expected = {
       id: 5,
       done: false,
       title: "New Todo",
+      labels: [],
     };
 
     const current = add(mockStore, params);
@@ -142,14 +154,14 @@ describe("findByStatus", () => {
   it("should find all todos where status is not-done", () => {
     const params = "not-done";
     const stored = [
-      { id: 2, title: "Todo 2", done: false },
-      { id: 3, title: "Todo 3", done: true },
-      { id: 4, title: "Todo 4", done: false },
+      { id: 2, title: "Todo 2", done: false, labels: [] },
+      { id: 3, title: "Todo 3", done: true, labels: [] },
+      { id: 4, title: "Todo 4", done: false, labels: [] },
     ];
     const mockStore = createMockStore(stored);
     const expected = [
-      "2 - [ ] Todo 2",
-      "4 - [ ] Todo 4",
+      "2 - [ ] Todo 2 ()",
+      "4 - [ ] Todo 4 ()",
       "You have 2 todos that are not-done.",
     ];
 
@@ -160,12 +172,12 @@ describe("findByStatus", () => {
   it("should find all todos where status is done", () => {
     const params = "done";
     const stored = [
-      { id: 2, title: "Todo 2", done: false },
-      { id: 3, title: "Todo 3", done: true },
-      { id: 4, title: "Todo 4", done: false },
+      { id: 2, title: "Todo 2", done: false, labels: [] },
+      { id: 3, title: "Todo 3", done: true, labels: [] },
+      { id: 4, title: "Todo 4", done: false, labels: [] },
     ];
     const mockStore = createMockStore(stored);
-    const expected = ["3 - [x] Todo 3", "You have 1 todos that are done."];
+    const expected = ["3 - [x] Todo 3 ()", "You have 1 todos that are done."];
 
     const current = findByStatus(mockStore, params);
 
@@ -175,9 +187,9 @@ describe("findByStatus", () => {
   it("should show not found message if no todos with done status have been found", () => {
     const params = "done";
     const stored = [
-      { id: 2, title: "Todo 2", done: false },
-      { id: 3, title: "Todo 3", done: false },
-      { id: 4, title: "Todo 4", done: false },
+      { id: 2, title: "Todo 2", done: false, labels: [] },
+      { id: 3, title: "Todo 3", done: false, labels: [] },
+      { id: 4, title: "Todo 4", done: false, labels: [] },
     ];
     const mockStore = createMockStore(stored);
     const expected = ["You have no todos that are done."];
@@ -190,9 +202,9 @@ describe("findByStatus", () => {
   it("should show not found message if no todos with not-done status have been found", () => {
     const params = "not-done";
     const stored = [
-      { id: 2, title: "Todo 2", done: true },
-      { id: 3, title: "Todo 3", done: true },
-      { id: 4, title: "Todo 4", done: true },
+      { id: 2, title: "Todo 2", done: true, labels: [] },
+      { id: 3, title: "Todo 3", done: true, labels: [] },
+      { id: 4, title: "Todo 4", done: true, labels: [] },
     ];
     const mockStore = createMockStore(stored);
     const expected = ["You have no todos that are not-done."];
@@ -207,12 +219,12 @@ describe("complete", () => {
   it("should set the given todos done property to true", () => {
     const params = 2;
     const stored = [
-      { id: 2, title: "Todo 2", done: false },
-      { id: 3, title: "Todo 3", done: true },
-      { id: 4, title: "Todo 4", done: false },
+      { id: 2, title: "Todo 2", done: false, labels: [] },
+      { id: 3, title: "Todo 3", done: true, labels: [] },
+      { id: 4, title: "Todo 4", done: false, labels: [] },
     ];
     const mockStore = createMockStore(stored);
-    const expected = { id: 2, title: "Todo 2", done: true };
+    const expected = { id: 2, title: "Todo 2", done: true, labels: [] };
 
     const current = complete(mockStore, params);
 
@@ -222,12 +234,12 @@ describe("complete", () => {
   it("should return the todo without changes if its already done", () => {
     const params = 2;
     const stored = [
-      { id: 2, title: "Todo 2", done: true },
-      { id: 3, title: "Todo 3", done: true },
-      { id: 4, title: "Todo 4", done: false },
+      { id: 2, title: "Todo 2", done: true, labels: [] },
+      { id: 3, title: "Todo 3", done: true, labels: [] },
+      { id: 4, title: "Todo 4", done: false, labels: [] },
     ];
     const mockStore = createMockStore(stored);
-    const expected = { id: 2, title: "Todo 2", done: true };
+    const expected = { id: 2, title: "Todo 2", done: true, labels: [] };
 
     const current = complete(mockStore, params);
 
@@ -238,14 +250,72 @@ describe("complete", () => {
 describe("editTitle", () => {
   it("should edit title", () => {
     const mockStore = createMockStore([
-      { id: 2, title: "Todo 2", done: false },
-      { id: 3, title: "Todo 3", done: true },
-      { id: 4, title: "Todo 4", done: false },
+      { id: 2, title: "Todo 2", done: false, labels: [] },
+      { id: 3, title: "Todo 3", done: true, labels: [] },
+      { id: 4, title: "Todo 4", done: false, labels: [] },
     ]);
 
-    const expected = { id: 4, title: "Todo 4 Updated", done: false };
+    const expected = {
+      id: 4,
+      title: "Todo 4 Updated",
+      done: false,
+      labels: [],
+    };
 
     const current = editTitle(mockStore, 4, "Todo 4 Updated");
+
+    expect(current).toStrictEqual(expected);
+  });
+});
+
+describe("addLabel", () => {
+  it("should add a new lable if the todo does not have the label yet", () => {
+    const mockStore = createMockStore([
+      { id: 2, title: "Todo 2", done: false, labels: [] },
+    ]);
+
+    const expected = {
+      id: 2,
+      title: "Todo 2",
+      done: false,
+      labels: ["label1"],
+    };
+
+    const current = addLabel(mockStore, 2, "label1");
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it("should not add a lable if the todo already has it", () => {
+    const mockStore = createMockStore([
+      { id: 2, title: "Todo 2", done: false, labels: ["label1"] },
+    ]);
+
+    const expected = {
+      id: 2,
+      title: "Todo 2",
+      done: false,
+      labels: ["label1"],
+    };
+
+    const current = addLabel(mockStore, 2, "label1");
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it("should add a new lable if the todo has the label but in another case", () => {
+    const mockStore = createMockStore([
+      { id: 2, title: "Todo 2", done: false, labels: ["label1"] },
+    ]);
+
+    const expected = {
+      id: 2,
+      title: "Todo 2",
+      done: false,
+      labels: ["label1", "Label1"],
+    };
+
+    const current = addLabel(mockStore, 2, "Label1");
 
     expect(current).toStrictEqual(expected);
   });
