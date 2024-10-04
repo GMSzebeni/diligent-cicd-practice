@@ -1,7 +1,9 @@
 import { AppError } from "./app-error.js";
 
 export function format(todo) {
-  return `${todo.id} - [${todo.done ? "x" : " "}] ${todo.title}`;
+  return `${todo.id} - [${todo.done ? "x" : " "}] ${todo.title} (${
+    todo.labels
+  })`;
 }
 
 export function formatList(todos) {
@@ -28,6 +30,7 @@ export function add(store, params) {
     title,
     done: false,
     id: nextId(todos),
+    labels: [],
   };
   const toStore = [...todos, newTodo];
   store.set(toStore);
@@ -50,8 +53,7 @@ export function findByStatus(store, validatedStatus) {
 
 export function findById(store, id) {
   const todos = store.get();
-  const numericId = id;
-  const todo = todos.find((t) => t.id === numericId);
+  const todo = todos.find((t) => t.id === id);
 
   if (!todo) {
     throw new AppError(`Todo could not be found with the id ${id}`);
@@ -74,4 +76,32 @@ export function complete(store, id) {
   store.set(todos);
 
   return todo;
+}
+
+export function editTitle(store, id, newTitle) {
+  let todo = findById(store, id);
+
+  todo = { ...todo, title: newTitle };
+
+  const todos = store.get();
+  const updatedTodos = todos.map((t) => (t.id === id ? todo : t));
+  store.set(updatedTodos);
+
+  const updatedTodo = findById(store, id);
+  return updatedTodo;
+}
+
+export function addLabel(store, id, label) {
+  const todo = findById(store, id);
+
+  if (!todo.labels.find((l) => l === label)) {
+    todo.labels.push(label);
+  }
+
+  const todos = store.get();
+  const updatedTodos = todos.map((t) => (t.id === id ? todo : t));
+  store.set(updatedTodos);
+
+  const updatedTodo = findById(store, id);
+  return updatedTodo;
 }
